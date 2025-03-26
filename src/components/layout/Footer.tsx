@@ -16,10 +16,10 @@ const Footer = () => {
                   <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                 </svg>
               </div>
-              <span className="font-display font-medium text-lg tracking-tight">Artifact Pipeline</span>
+              <span className="font-display font-medium text-lg tracking-tight">PEDAL</span>
             </div>
             <p className="text-muted-foreground text-sm max-w-xs">
-              A beautiful workflow pipeline for moving SWE artifacts through a delivery process with stakeholder approvals.
+              Product Engineering Delivery Automation Lifecycle - A beautiful workflow pipeline for moving SWE artifacts through a delivery process with stakeholder approvals.
             </p>
           </div>
           
@@ -83,7 +83,7 @@ const Footer = () => {
         
         <div className="border-t border-border mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} Artifact Pipeline. All rights reserved.
+            © {currentYear} PEDAL. All rights reserved.
           </p>
           
           <div className="flex items-center space-x-4 mt-4 md:mt-0">

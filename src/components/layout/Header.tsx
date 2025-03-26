@@ -44,7 +44,7 @@ const Header = () => {
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
               </svg>
             </div>
-            <span className="font-display font-medium text-lg tracking-tight">Artifact Pipeline</span>
+            <span className="font-display font-medium text-lg tracking-tight">PEDAL</span>
           </motion.div>
         </Link>
         

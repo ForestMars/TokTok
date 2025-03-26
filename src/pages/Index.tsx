@@ -22,7 +22,7 @@ const Index = () => {
               Airflow 3.x Workflow Pipeline
             </span>
             <h1 className="text-4xl md:text-5xl font-display font-semibold mb-4 tracking-tight">
-              Software Artifact Delivery Pipeline
+              Product Engineering Delivery Automation Lifecycle
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               A streamlined process for moving software artifacts through a delivery workflow with stakeholder approvals and automated processing.

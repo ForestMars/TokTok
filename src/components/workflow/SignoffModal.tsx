@@ -49,7 +49,7 @@ const SignoffModal: React.FC<SignoffModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-display">Signoff Request</DialogTitle>
+          <DialogTitle className="text-xl font-display">PEDAL Signoff Request</DialogTitle>
           <DialogDescription className="text-muted-foreground">
             Please review and provide your decision for this artifact
           </DialogDescription>
