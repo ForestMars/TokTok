@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useAuth } from '@/context/AuthContext';
 
 interface SignoffModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ const SignoffModal: React.FC<SignoffModalProps> = ({
   artifactType,
   stage,
 }) => {
+  const { user } = useAuth();
   const [comment, setComment] = useState('');
   const [decision, setDecision] = useState<'approve' | 'reject' | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,12 +39,32 @@ const SignoffModal: React.FC<SignoffModalProps> = ({
     setTimeout(() => {
       setIsSubmitting(false);
       if (decision === 'approve') {
-        toast.success('Artifact approved successfully');
+        toast.success(`Artifact approved as ${user?.role?.replace('_', ' ')}`);
       } else {
-        toast.error('Artifact rejected');
+        toast.error(`Artifact rejected as ${user?.role?.replace('_', ' ')}`);
       }
       onClose();
     }, 1500);
+  };
+
+  // Get role display name
+  const getRoleDisplayName = () => {
+    if (!user?.role) return '';
+    
+    switch (user.role) {
+      case 'product_owner':
+        return 'Product Owner';
+      case 'product_manager':
+        return 'Product Manager';
+      case 'technical_project_manager':
+        return 'Technical Project Manager';
+      case 'engineer':
+        return 'Engineer';
+      case 'admin':
+        return 'Administrator';
+      default:
+        return user.role.replace('_', ' ');
+    }
   };
 
   return (
@@ -51,7 +73,7 @@ const SignoffModal: React.FC<SignoffModalProps> = ({
         <DialogHeader>
           <DialogTitle className="text-xl font-display">PEDAL Signoff Request</DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Please review and provide your decision for this artifact
+            Please review and provide your decision for this artifact as {getRoleDisplayName()}
           </DialogDescription>
         </DialogHeader>
         
