@@ -25,7 +25,7 @@ const Index = () => {
               Product Engineering Delivery Automation Lifecycle
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              A fully automated development pipeline from product specs to production deployed software.
+              A fully automated development pipeline from product specs to production deployed&nbsp;software.
             </p>
           </motion.div>
           
