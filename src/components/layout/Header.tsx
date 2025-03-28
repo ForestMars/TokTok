@@ -13,12 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
-import { LogOut, Plus, Settings, Users } from 'lucide-react';
+import { LogOut, Plus, Settings, Users, Github } from 'lucide-react';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, login } = useAuth();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -65,32 +65,52 @@ const Header = () => {
           </motion.div>
         </Link>
         
-        {isAuthenticated && (
-          <nav className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <Link 
-                key={item.path} 
-                to={item.path}
-                className={cn(
-                  'relative px-4 py-2 rounded-md text-sm font-medium transition-colors',
-                  location.pathname === item.path
-                    ? 'text-workflow-blue'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                )}
-              >
-                {location.pathname === item.path && (
-                  <motion.span 
-                    layoutId="navbar-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-workflow-blue"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  />
-                )}
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-        )}
+        <nav className="hidden md:flex items-center space-x-1">
+          {isAuthenticated && navItems.map((item) => (
+            <Link 
+              key={item.path} 
+              to={item.path}
+              className={cn(
+                'relative px-4 py-2 rounded-md text-sm font-medium transition-colors',
+                location.pathname === item.path
+                  ? 'text-workflow-blue'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+              )}
+            >
+              {location.pathname === item.path && (
+                <motion.span 
+                  layoutId="navbar-indicator"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-workflow-blue"
+                  initial={false}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
+              {item.name}
+            </Link>
+          ))}
+          
+          {!isAuthenticated && (
+            <Link 
+              to="/login"
+              className={cn(
+                'relative px-4 py-2 rounded-md text-sm font-medium transition-colors',
+                location.pathname === '/login'
+                  ? 'text-workflow-blue'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+              )}
+            >
+              {location.pathname === '/login' && (
+                <motion.span 
+                  layoutId="navbar-indicator"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-workflow-blue"
+                  initial={false}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
+              Sign In
+            </Link>
+          )}
+        </nav>
         
         <div className="flex items-center space-x-3">
           {isAuthenticated ? (
@@ -149,11 +169,10 @@ const Header = () => {
               </DropdownMenu>
             </>
           ) : (
-            <Link to="/login">
-              <Button>
-                Sign In
-              </Button>
-            </Link>
+            <Button onClick={login} className="flex items-center gap-2">
+              <Github className="w-4 h-4" />
+              Sign In with GitHub
+            </Button>
           )}
         </div>
       </div>

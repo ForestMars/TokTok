@@ -63,7 +63,8 @@ const SignoffModal: React.FC<SignoffModalProps> = ({
       case 'admin':
         return 'Administrator';
       default:
-        return user.role.replace(/_/g, ' ');
+        // Ensure we handle the string type case properly
+        return typeof user.role === 'string' ? user.role.replace(/_/g, ' ') : '';
     }
   };
 
