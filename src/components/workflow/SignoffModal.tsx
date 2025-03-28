@@ -39,9 +39,9 @@ const SignoffModal: React.FC<SignoffModalProps> = ({
     setTimeout(() => {
       setIsSubmitting(false);
       if (decision === 'approve') {
-        toast.success(`Artifact approved as ${user?.role?.replace('_', ' ')}`);
+        toast.success(`Artifact approved as ${getRoleDisplayName()}`);
       } else {
-        toast.error(`Artifact rejected as ${user?.role?.replace('_', ' ')}`);
+        toast.error(`Artifact rejected as ${getRoleDisplayName()}`);
       }
       onClose();
     }, 1500);
@@ -63,7 +63,7 @@ const SignoffModal: React.FC<SignoffModalProps> = ({
       case 'admin':
         return 'Administrator';
       default:
-        return user.role.replace('_', ' ');
+        return user.role.replace(/_/g, ' ');
     }
   };
 
