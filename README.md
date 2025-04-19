@@ -121,6 +121,261 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 \`<Route path="/my-page" element={<MyPage />} /\>\` in \`App.tsx\` above
 \`\*\`.
 
+## Architecture
+
+Pedal 1’s architecture is a classic provider‑wrapped SPA composed of six
+layers: \*\*Entry\*\*, \*\*Providers\*\*, \*\*Auth\*\*, \*\*Routing\*\*,
+\*\*Pages\*\*, and \*\*UI Components\*\*. Each layer encapsulates a
+distinct responsibility, ensuring separation of concerns and easy
+extensibility. For a deeper dive, see the [Architecture Deep
+Dive](arch.md).
+
+### Entry Point
+
+``` jsx
+/src/main.tsx
+import { createRoot } from 'react-dom/client';
+import App from './App.tsx';
+createRoot(document.getElementById('root')!).render(<App />);
+```
+
+• Mounts \`<App />\` into the DOM node with id \`root\`.
+
+
+``` text
+main.tsx
+  └─ createRoot → render <App />
+
+App.tsx
+  ├─ <QueryClientProvider>      ← TanStack React Query client for server state
+  │    └─ <TooltipProvider>      ← global Radix tooltips
+  │         └─ <BrowserRouter>   ← React Router DOM for client‑side routing
+  │              └─ <AuthProvider> ← demo auth & role context
+  │                   ├─ Sonner & Toaster UI
+  │                   └─ <Routes>   ← application routes
+  └─ export default App
+```
+
+### Provider Layer
+
+#### Global Providers
+``` jsx
+/src/App.tsx
+<QueryClientProvider client={queryClient}>
+  <TooltipProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Sonner/>  {/* toast UI */}
+        <Toaster/> {/* legacy toast UI */}
+        <Routes>…</Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  </TooltipProvider>
+</QueryClientProvider>
+```
+
+1\. \*\*QueryClientProvider\*\*
+
+`  - Instantiates a single React Query client  `  
+`  - Manages caching & refetch policies  `
+
+2\. \*\*TooltipProvider\*\*
+
+`  - Central Radix UI tooltip configuration  `
+
+3\. \*\*BrowserRouter\*\*
+
+`  - Enables client‑side routing  `
+
+4\. \*\*AuthProvider\*\*
+
+``   - Houses `AuthContext` (user state, login/logout, role updates)   ``  
+``   - Persists user in `localStorage` under `pedal_user`   ``
+
+5\. \*\*Toasters (Sonner & Toaster)\*\*
+
+`  - Global notification system  `
+
+\> \_Order matters:\_ React Query must wrap routing if any page uses
+\`useQuery\`; Auth must wrap Routes to enforce protected paths.
+
+### Auth Layer
+
+``` typescript
+/src/context/AuthContext.tsx
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState<User|null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('pedal_user');
+    if (stored) setUser(JSON.parse(stored));
+    setIsLoading(false);
+  }, []);
+
+  const login = async () => {
+    setIsLoading(true);
+    // DEMO: stubbed GitHub flow
+    const demoUser = { id: '1', name: 'Demo', role: 'admin' };
+    setUser(demoUser);
+    localStorage.setItem('pedal_user', JSON.stringify(demoUser));
+    setIsLoading(false);
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('pedal_user');
+  };
+
+  const updateUserRole = async (role) => { /* updates user.role + localStorage */ };
+
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout, updateUserRole }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+```
+
+\- \*\*State Initialization\*\* via \`useEffect\` → prevents flicker
+during first render - \*\*API Stubbing\*\* in \`login()\` for rapid
+prototyping - \*\*Role Management\*\* exposed to UI via
+\`updateUserRole()\`
+
+###  Routing & Pages
+
+#### Public Routing
+
+``  - `/login` → **Login.tsx** (Framer Motion animations + GitHub stub)   ``  
+``  - `*` → **NotFound.tsx** ``
+
+#### Protected Routes 
+(via \`\<ProtectedRoute requiredRoles?\>\`)
+
+- `` `/` → **Index.tsx** (main dashboard)   ``  
+- `` `/documentation` → **Documentation.tsx** (in‑app docs viewer)   ``  
+- `` `/user-management` → **UserManagement.tsx** (admin UI)   ``  
+- `` `/unauthorized` → **Unauthorized.tsx** ``
+
+#### ProtectedRoute.tsx
+
+``` jsx
+/src/components/auth/ProtectedRoute.tsx
+const ProtectedRoute = ({ children, requiredRoles }) => {
+  const { user, isLoading } = useAuth();
+  if (isLoading) return <LoadingSpinner />;
+  if (!user) return <Navigate to="/login" replace />;
+  if (requiredRoles && !requiredRoles.includes(user.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+  return children;
+};
+```
+
+- **Loading Guard**: shows spinner until auth init completes 
+- **Auth Guard**: redirects unauthenticated users to \`/login\` 
+- **Role Guard**: optional \`requiredRoles\` prop for fine‑grained
+access
+
+### Page Layer
+
+Each page is a self‑contained React component, using: 
+- **Animations** via Framer Motion (e.g., \`\<motion.div\>\` in
+\`Login.tsx\`) 
+- **UI Primitives** from shadcn/UI and Radix
+(Buttons, Inputs, Accordions) 
+- **Data Hooks** (e.g., future \`useUsers()\` under \`/src/hooks\`)
+
+Key pages:
+
+- **Index.tsx**: Dashboard stub
+- **Login.tsx**: Demo GitHub flow + instructive note
+- **Documentation.tsx**: MDX or React‑based docs rendering
+- **UserManagement.tsx**: Role editing UI; calls
+  \`updateUserRole()\`
+- **Unauthorized.tsx**: Simple route errors (`NotFound.tsx)`
+
+
+### ### Component & Folder Breakdown
+
+`/src/components/`
+
+- Reusable UI primitives (Toaster, Button, ProtectedRoute, etc.)
+
+`**/src/context/AuthContext.tsx`
+
+- Central auth logic; stubbed login flow, role management, localStorage hooks  `
+
+`/src/hooks/`
+
+- Custom React hooks for encapsulating common logic
+
+`/src/lib/`
+
+- Utility functions (e.g., date formatting or helper APIs)
+
+`/src/pages/`
+
+- Route target components; each page focused on a single view 
+
+**Styles**:
+
+- `` `index.css` + `App.css` for global Tailwind layers   ``  
+- `` `tailwind.config.ts` customizes design tokens and typography   ``
+
+### Data Flow, State Management & Side Effects
+
+1. User action (e.g., click “Sign in with GitHub”) 
+2. `AuthContext.login()` - Mocks API call → sets `user` state → writes to `localStorage` 
+
+3\. `ProtectedRoute` reads \`user\` from context → allows or
+redirects 4. \*\*Page components\*\* fetch data via React Query hooks
+(\`useQuery\`, \`useMutation\`) if extended 5. \*\*UI feedback\*\* via
+Sonner Toaster on success or failure
+
+
+While core codebase currently stubs network calls, its design
+anticipates: 
+1. **React Query Hooks** (\`useQuery\`,
+\`useMutation\`) for REST/GraphQL 
+2. **Centralized Error Handling**
+via QueryClient’s \`onError\` callbacks and Sonner toasts 
+3. **LocalStorage Sync** in AuthContext ensures persistence across
+reloads
+
+### UI & Styling
+
+- **Tailwind CSS** with global imports (\`index.css\`, \`App.css\`)
+- **tailwind.config.ts** extends theme and typography 
+- **Component‑level classes** follow utility‑first pattern
+
+### Scalability Considerations
+
+- **Code‑splitting**: currently none—future \`React.lazy\` imports
+  can lazy‑load heavy pages.
+- **Memoization**: Wrap heavy context values with \`useMemo\` to prevent unnecessary re‑renders 
+- **Feature Modules**: Future ability to extract sub‑apps (e.g., Reports, Analytics) as
+separate routes/providers
+- **Provider composition**: adding a new context (e.g.,
+  ThemeProvider) is straightforward in \`App.tsx\`.
+- **Routing**: additional routes slot in above catch‑all; roles
+  extendable via \`UserRole\` union type.
+- **Testing**: architecture supports isolated unit tests for
+  context, routes, and component logic.
+
+### Extensibility Points
+
+- **Adding a Context**: Insert new provider alongside Auth in
+\`App.tsx\` 
+- **New Route**: Declare in \`<Routes>\` before the
+wildcard 
+- **Real OAuth**: Swap stub in \`AuthContext.login()\` with
+actual fetch to GitHub’s OAuth endpoints
+
+This architecture gives you a fully wired SPA scaffold—ready for
+production‑grade enhancements or rapid prototyping.
+
 ## 🛡️ Caveats & Security
 
 \- \*\*Demo‑only Auth:\*\* All auth is client‑side; credentials in
