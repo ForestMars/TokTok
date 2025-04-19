@@ -5,10 +5,7 @@ and control."*
 
 ## Badges
 
-<img src="https://img.shields.io/npm/v/vite_react_shadcn_ts" alt="npm version" />
-<img src="https://img.shields.io/badge/Python-3.11-blue.svg" alt="Python: 3.11" />
-<img src="https://img.shields.io/badge/Build-passing-brightgreen.svg" alt="Build: passing" />
-<img src="https://img.shields.io/badge/License-2025_Continuum_Software-blue.svg" alt="License: Continuum Software 2025" />
+<img src="https://img.shields.io/npm/v/vite_react_shadcn_ts" alt="npm version" /><img src="https://img.shields.io/badge/Python-3.11-blue.svg" alt="Python: 3.11" /><img src="https://img.shields.io/badge/Build-passing-brightgreen.svg" alt="Build: passing" /><img src="https://img.shields.io/badge/License-2025_Continuum_Software-blue.svg" alt="License: Continuum Software 2025" />
 
 ## Overview
 
