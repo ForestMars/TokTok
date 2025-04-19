@@ -94,31 +94,6 @@ echo "VITE_GITHUB_CLIENT_SECRET=your_secret" >> .env
 Vite auto‑loads \`VITE\_\*\` vars. Replace the stub in
 \`AuthContext.login()\`.
 
-
-## 📚 Usage Examples
-
-- Accessing Dashboard\*
-
-``` jsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-<BrowserRouter>
-  <Routes>
-    <Route path="/" element={<Index />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/documentation" element={
-      <ProtectedRoute><Documentation /></ProtectedRoute>
-    }/>
-  </Routes>
-</BrowserRouter>
-```
-
-- Adding a New Route\*
-
-1\. Create \`src/pages/MyPage.tsx\`. 2. Add
-\`<Route path="/my-page" element={<MyPage />} /\>\` in \`App.tsx\` above
-\`\*\`.
-
 ## Architecture
 
 Pedal 1’s architecture is a classic provider‑wrapped SPA composed of six
@@ -294,8 +269,7 @@ Key pages:
   \`updateUserRole()\`
 - **Unauthorized.tsx**: Simple route errors (`NotFound.tsx)`
 
-
-### ### Component & Folder Breakdown
+### Component & Folder Breakdown
 
 `/src/components/`
 
@@ -341,6 +315,30 @@ anticipates:
 via QueryClient’s \`onError\` callbacks and Sonner toasts 
 3. **LocalStorage Sync** in AuthContext ensures persistence across
 reloads
+
+## 📚 Usage Examples
+
+- Accessing Dashboard\*
+
+``` jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Index />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/documentation" element={
+      <ProtectedRoute><Documentation /></ProtectedRoute>
+    }/>
+  </Routes>
+</BrowserRouter>
+```
+
+- Adding a New Route\*
+
+1\. Create \`src/pages/MyPage.tsx\`. 2. Add
+\`<Route path="/my-page" element={<MyPage />} /\>\` in \`App.tsx\` above
+\`\*\`.
 
 ### UI & Styling
 
