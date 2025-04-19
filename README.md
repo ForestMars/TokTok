@@ -61,7 +61,7 @@ npm run lint
   \`bun.lockb\`. Use one package manager—delete the other lockfile to
   avoid conflicts.
 
-## 🗺️ Architecture
+## 🗺️ Layout
 
 ``` bash
 📁 src/
@@ -128,7 +128,7 @@ layers: \*\*Entry\*\*, \*\*Providers\*\*, \*\*Auth\*\*, \*\*Routing\*\*,
 \*\*Pages\*\*, and \*\*UI Components\*\*. Each layer encapsulates a
 distinct responsibility, ensuring separation of concerns and easy
 extensibility. For a deeper dive, see the [Architecture Deep
-Dive](arch.md).
+Dive](ARCH.md).
 
 ### Entry Point
 
