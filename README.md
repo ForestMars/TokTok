@@ -1,13 +1,9 @@
-<figure>
-<img src="Pedal_dashboard.png" title="Dashboard Preview" />
-<figcaption>Dashboard Preview</figcaption>
-</figure>
+
+<img src="https://img.shields.io/npm/v/vite_react_shadcn_ts" alt="npm version" />&nbsp;&nbsp;<img src="https://img.shields.io/badge/Build-passing-brightgreen.svg" alt="Build: passing" />&nbsp;&nbsp;<img src="https://img.shields.io/badge/License-2025_Continuum_Software-blue.svg" alt="License: Continuum Software 2025" />
 
 # PEDAL 1
 
-*Product Engineering Delivery Automation Lifecycle* — a React‑powered
-demo dashboard for visualizing and signing off on each stage of your
-engineering pipeline.
+React‑powered demo dashboard for visualizing and signing off on each stage of PEDAL development pipeline. 
 
 ## Features
 
@@ -106,3 +102,8 @@ No LICENSE file detected. If open‑sourcing, consider an MIT License.
 
 Bugs & feature requests → [GitHub
 Issues](https://github.com/your-org/pedal-1/issues)
+
+<figure>
+<img src="Pedal_dashboard.png" title="Dashboard Preview" />
+<figcaption>Dashboard Preview</figcaption>
+</figure>
