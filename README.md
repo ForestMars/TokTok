@@ -49,7 +49,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173\_](http://localhost:5173)
+Open [http://localhost:5173\](http://localhost:5173)
 
 ## 🔧 Installation Details
 
@@ -98,6 +98,7 @@ Vite auto‑loads \`VITE\_\*\` vars. Replace the stub in
 
 Pedal 1’s architecture is a classic provider‑wrapped SPA composed of six
 layers: 
+
 **Entry**, **Providers**, **Auth**, **Routing**, **Pages**, and **UI Components**. 
 
 Each layer encapsulates a distinct responsibility, ensuring separation of concerns and easy extensibility. For a more comprehensive explanation, see the [Architecture Deep
@@ -112,7 +113,7 @@ import App from './App.tsx';
 createRoot(document.getElementById('root')!).render(<App />);
 ```
 
-Mounts `<App />` into the DOM node with id \`root\`.
+Mounts `<App />` into the DOM node with id `root`.
 
 
 ``` text
@@ -317,7 +318,7 @@ reloads
 
 ## 📚 Usage Examples
 
-- Accessing Dashboard\*
+### Accessing Dashboard
 
 ``` jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -373,29 +374,20 @@ production‑grade enhancements or rapid prototyping.
 
 ## 🛡️ Caveats & Security
 
-\- \*\*Demo‑only Auth:\*\* All auth is client‑side; credentials in
-plaintext localStorage. - \*\*No XSS Sanitization:\*\* Inputs rendered
-raw. - \*\*No Error Boundaries:\*\* Async failures have no fallbacks.
+- **Demo‑only Auth**: All auth is client‑side; credentials in
+plaintext localStorage. 
+- **No XSS Sanitization**: Inputs rendered raw. 
+- **No Error Boundaries**: Async failures have no fallbacks.
 
 ## 🤝 Contributing
 
-1\. Fork and branch off \`main\`. 2. Run \`npm install\` → \`npm run
-lint\`. 3. Implement feature or bugfix; add tests. 4. Submit PR with
-clear, scoped commit messages (Conventional Commits).
+1. Fork and branch off `main`. 
+2. Run `npm install` → `npm run lint`. 
+3. Implement feature or bugfix; add tests. 
+4. Submit PR with clear, scoped commit messages (Conventional Commits).
 
 ## License
 
 ⚖️ This project is copyright 2025 Continuum Software. Dependency licenses as stated. 
 
-## 
 
-Notes on This README== == This document reflects detailed codebase
-analysis:
-
-- Scripts & commands from \`package.json\`.
-- Auth flow & routes from \`src/context/AuthContext.tsx\` and
-  \`App.tsx\`.
-- Feature set from \`src/pages\` and components.
-- Stack versions from \`tsconfig.\*\`, \`vite.config.ts\`,
-  \`tailwind.config.ts\`.
-- Screenshot path from \`assets/ui/pedal_dashboard.png\`.
