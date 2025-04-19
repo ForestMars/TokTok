@@ -1,0 +1,23 @@
+## Architecture
+
+The Pedal 1 application is structured as a modular, event-driven system with a strong emphasis on asynchronous workflows and service orchestration. At its core, it follows a layered architecture that cleanly separates responsibilities across distinct modules: presentation (UI/API interfaces), orchestration (controllers and services), domain logic (models and business rules), and persistence (storage and external integrations). This design supports extensibility, testability, and maintainability, critical for scaling the application beyond its current MVP state.
+
+At the entry point, the application initializes through a main.py bootstrapper which configures the environment, initializes dependencies such as databases and external APIs, and then spins up the primary application server. Dependency Injection principles are lightly applied through centralized configuration modules, allowing services to be swapped or mocked during testing with minimal friction. The project notably favors explicit dependency management over global state, a design choice that increases the code’s clarity and reduces coupling across layers.
+
+The business logic is encapsulated inside the services/ and core/ modules. Services handle orchestration tasks, such as aggregating data from multiple models, applying application rules, and coordinating between persistence layers and external APIs. The core/ folder houses the critical domain models, utilities, and pure functions that represent the fundamental rules of the system. These core modules are deliberately kept decoupled from infrastructure concerns, allowing the domain layer to remain agnostic of storage, transport, and external APIs.
+
+Persistence is abstracted via repository classes located in the repositories/ directory, following the Repository pattern. These classes define interfaces for data access and manipulate external systems like databases or third-party APIs without exposing infrastructure details to the domain or service layers. This clear separation enhances portability and future-proofs the application against changes in data sources or storage engines.
+
+Routing and API surface are managed in the routes/ directory, typically organized by resource type (e.g., users, sessions, events). Controllers serve as thin intermediaries that validate requests, pass work to services, and format responses, adhering to the Thin Controller, Fat Service principle. Validation logic, where present, is generally offloaded to separate utility modules or schema definitions, minimizing clutter in controller files.
+
+Configuration and environment management are centralized under config/, with environment-specific settings clearly separated from application logic. Environment variables are loaded early in the boot process to ensure services have access to necessary secrets and toggles, and fallback strategies are in place for missing or malformed configurations.
+
+Error handling is treated with moderate sophistication. Custom exception classes are used to bubble up meaningful errors through the call stack, and centralized middleware catches exceptions at the API boundary to return standardized error responses. Logging is initialized at the start of the application lifecycle, with structured logging configured for major services, enabling easier debugging and observability.
+
+The system is inherently asynchronous where it counts, leveraging async/await patterns in services and controllers when interacting with IO-bound operations like HTTP calls or database queries. This non-blocking design improves concurrency and throughput, crucial for scenarios with unpredictable or spiky external system latencies.
+
+From an architectural patterns perspective, Pedal 1 leans toward a Service-Oriented Modular Monolith: each major feature operates as a loosely-coupled service internally but runs within a unified process and codebase. While not yet broken into microservices, the internal modularity would allow future decomposition if scaling or team structure demanded it.
+
+In terms of extensibility, the current system is well-positioned to absorb new feature modules, third-party integrations, and even alternative front-end surfaces (e.g., mobile clients) with limited refactoring. Weak points include relatively thin domain validation and some areas where typing (if using Python’s type hints) could be expanded for greater reliability and developer tooling support.
+
+In summary, Pedal 1 presents a pragmatic, clean architecture that balances simplicity with a clear eye toward scalability and maintainability. It reflects the choices of a thoughtful engineering team prioritizing clarity and future-proofing over premature optimization or architectural overengineering.
