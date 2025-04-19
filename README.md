@@ -5,7 +5,7 @@
 
 React‑powered demo dashboard for visualizing and signing off on each stage of PEDAL development pipeline. 
 
-## Features
+## 🧩 Features
 
 - **Role‑based demo auth**: Click “Sign in with GitHub” to simulate
   login as admin, product owner, PM, TPM, or engineer (mock data).
@@ -16,6 +16,13 @@ React‑powered demo dashboard for visualizing and signing off on each stage of 
 - **User management**: Admins can view and update user roles on the fly.
 - **Zero backend**: All data is mocked; drop‑in for prototyping without
   infra.
+- **Demo GitHub Login**: Click “Sign in with GitHub” in \`/login\`.
+- **Protected Routes**: Wrap pages in \`<ProtectedRoute>\`; roles in
+  \`AuthContext\`.
+- **Docs Viewer**: Navigate to \`/documentation\`.
+- **User Management**: Accessible under \`/user-management\` for
+  admins; updates flow through Context and localStorage.
+- **Animations & Toasts**: Powered by Framer Motion and Sonner.
 
 It bundles shadcn/UI + Radix components, React Query, React Router,
 Framer Motion and Sonner toasts to jump‑start your dashboard.
@@ -87,15 +94,6 @@ echo "VITE_GITHUB_CLIENT_SECRET=your_secret" >> .env
 Vite auto‑loads \`VITE\_\*\` vars. Replace the stub in
 \`AuthContext.login()\`.
 
-## 🧩 Features
-
-- \*\*Demo GitHub Login:\*\* Click “Sign in with GitHub” in \`/login\`.
-- \*\*Protected Routes:\*\* Wrap pages in \`<ProtectedRoute>\`; roles in
-  \`AuthContext\`.
-- \*\*Docs Viewer:\*\* Navigate to \`/documentation\`.
-- \*\*User Management:\*\* Accessible under \`/user-management\` for
-  admins; updates flow through Context and localStorage.
-- \*\*Animations & Toasts:\*\* Powered by Framer Motion and Sonner.
 
 ## 📚 Usage Examples
 
