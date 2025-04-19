@@ -127,15 +127,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 plaintext localStorage. - \*\*No XSS Sanitization:\*\* Inputs rendered
 raw. - \*\*No Error Boundaries:\*\* Async failures have no fallbacks.
 
-## 🧪 Testing
-
-\_No tests found.\_ We welcome Jest + React Testing Library
-contributions. Suggested command:
-
-``` bash
-npm install --save-dev jest @testing-library/react @types/jest
-```
-
 ## 🤝 Contributing
 
 1\. Fork and branch off \`main\`. 2. Run \`npm install\` → \`npm run
@@ -158,4 +149,3 @@ analysis:
 - Stack versions from \`tsconfig.\*\`, \`vite.config.ts\`,
   \`tailwind.config.ts\`.
 - Screenshot path from \`assets/ui/pedal_dashboard.png\`.
-- Noted lockfile duplication, missing tests, missing license.
