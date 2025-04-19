@@ -33,7 +33,7 @@ Framer Motion and Sonner toasts to jump‑start your dashboard.
 2.  Clone the repo:
 
 ``` bash
-git clone https://github.com/your‑org/pedal‑1.git
+git clone https://github.com/forestmars/pedal‑1.git
 cd pedal‑1
 ```
 
@@ -49,7 +49,7 @@ npm install
 npm run dev
 ```
 
-\_Open [http://localhost:5173\_](http://localhost:5173_)
+Open [http://localhost:5173\_](http://localhost:5173)
 
 ## 🔧 Installation Details
 
@@ -64,7 +64,7 @@ npm run preview
 npm run lint
 ```
 
-- Lockfile:\* This repo contains both \`package-lock.json\` and
+**Lockfile**: This repo contains both \`package-lock.json\` and
   \`bun.lockb\`. Use one package manager—delete the other lockfile to
   avoid conflicts.
 
@@ -97,10 +97,10 @@ Vite auto‑loads \`VITE\_\*\` vars. Replace the stub in
 ## Architecture
 
 Pedal 1’s architecture is a classic provider‑wrapped SPA composed of six
-layers: \*\*Entry\*\*, \*\*Providers\*\*, \*\*Auth\*\*, \*\*Routing\*\*,
-\*\*Pages\*\*, and \*\*UI Components\*\*. Each layer encapsulates a
-distinct responsibility, ensuring separation of concerns and easy
-extensibility. For a deeper dive, see the [Architecture Deep
+layers: 
+**Entry**, **Providers**, **Auth**, **Routing**, **Pages**, and **UI Components**. 
+
+Each layer encapsulates a distinct responsibility, ensuring separation of concerns and easy extensibility. For a more comprehensive explanation, see the [Architecture Deep
 Dive](ARCH.md).
 
 ### Entry Point
@@ -112,7 +112,7 @@ import App from './App.tsx';
 createRoot(document.getElementById('root')!).render(<App />);
 ```
 
-• Mounts \`<App />\` into the DOM node with id \`root\`.
+Mounts `<App />` into the DOM node with id \`root\`.
 
 
 ``` text
@@ -147,30 +147,30 @@ App.tsx
 </QueryClientProvider>
 ```
 
-1\. \*\*QueryClientProvider\*\*
+1. **QueryClientProvider**
 
-`  - Instantiates a single React Query client  `  
-`  - Manages caching & refetch policies  `
+- ` Instantiates a single React Query client  `  
+- ` Manages caching & refetch policies  `
 
-2\. \*\*TooltipProvider\*\*
+2. **TooltipProvider**
 
-`  - Central Radix UI tooltip configuration  `
+- ` Central Radix UI tooltip configuration  `
 
-3\. \*\*BrowserRouter\*\*
+3. **BrowserRouter**
 
-`  - Enables client‑side routing  `
+- ` Enables client‑side routing  `
 
-4\. \*\*AuthProvider\*\*
+4. **AuthProvider**
 
-``   - Houses `AuthContext` (user state, login/logout, role updates)   ``  
-``   - Persists user in `localStorage` under `pedal_user`   ``
+- ` Houses `AuthContext` (user state, login/logout, role updates)   `
+- ` Persists user in `localStorage` under `pedal_user`   `
 
-5\. \*\*Toasters (Sonner & Toaster)\*\*
+5. **Toasters (Sonner & Toaster)**
 
-`  - Global notification system  `
+- ` Global notification system  `
 
-\> \_Order matters:\_ React Query must wrap routing if any page uses
-\`useQuery\`; Auth must wrap Routes to enforce protected paths.
+**Order matters**: React Query must wrap routing if any page uses
+`useQuery`; Auth must wrap Routes to enforce protected paths.
 
 ### Auth Layer
 
@@ -211,17 +211,16 @@ export const AuthProvider = ({ children }) => {
 };
 ```
 
-\- \*\*State Initialization\*\* via \`useEffect\` → prevents flicker
-during first render - \*\*API Stubbing\*\* in \`login()\` for rapid
-prototyping - \*\*Role Management\*\* exposed to UI via
-\`updateUserRole()\`
+- **State Initialization** via  `useEffect` → prevents flicker during first render 
+- **API Stubbing** in `login()` for rapid prototyping 
+- **Role Management** exposed to UI via `updateUserRole()`
 
 ###  Routing & Pages
 
 #### Public Routing
 
-``  - `/login` → **Login.tsx** (Framer Motion animations + GitHub stub)   ``  
-``  - `*` → **NotFound.tsx** ``
+- ``  `/login` → **Login.tsx** (Framer Motion animations + GitHub stub)   ``  
+- ``  `*` → **NotFound.tsx** ``
 
 #### Protected Routes 
 (via \`\<ProtectedRoute requiredRoles?\>\`)
