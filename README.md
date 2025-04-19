@@ -17,93 +17,145 @@ React‑powered demo dashboard for visualizing and signing off on each stage of 
 - **Zero backend**: All data is mocked; drop‑in for prototyping without
   infra.
 
-## Installation
+It bundles shadcn/UI + Radix components, React Query, React Router,
+Framer Motion and Sonner toasts to jump‑start your dashboard.
 
-### Prerequisites
+## 🛠️ Quick Start
 
-- Node.js ≥ 16.x
-- npm (or bun)
+1.  Ensure you have Node.js ≥18 and npm.
+2.  Clone the repo:
 
 ``` bash
-# 1. Clone repository
-git clone https://github.com/your-org/pedal-1.git
-cd pedal-1
+git clone https://github.com/your‑org/pedal‑1.git
+cd pedal‑1
+```
 
-# 2. Install dependencies
+1.  Install dependencies (we recommend npm):
+
+``` bash
 npm install
+```
 
-# 3. Start dev server
+1.  Start dev server:
+
+``` bash
 npm run dev
 ```
 
-Then open your browser at
-[<http://localhost:8080>](http://localhost:8080).
+\_Open [http://localhost:5173\_](http://localhost:5173_)
 
-## Usage
-
-### Sign in
-
-Click **Sign in with GitHub** on the login page — no OAuth setup
-required. You’ll be randomly assigned a demo user role.
-
-### Explore the app
-
-- **Pipeline**: View artifacts, progress, and approvals.
-- **Documentation**: Built‑in docs page for project overview.
-- **User Management (admin only)**: Change roles to test UI permissions.
-
-### Build for production
+## 🔧 Installation Details
 
 ``` bash
-npm run build        # output → dist/
-npm run preview      # serve production build locally
+# Production build
+npm run build
+
+# Preview the production bundle
+npm run preview
+
+# Lint all files
+npm run lint
 ```
 
-## Tech Stack
+- Lockfile:\* This repo contains both \`package-lock.json\` and
+  \`bun.lockb\`. Use one package manager—delete the other lockfile to
+  avoid conflicts.
 
-| Layer     | Framework / Lib                                |
-|-----------|------------------------------------------------|
-| Build     | Vite                                           |
-| Language  | TypeScript                                     |
-| UI        | React 18 + Shadcn/UI (Radix UI + Tailwind CSS) |
-| Routing   | React Router DOM                               |
-| Animation | Framer Motion                                  |
-| Styling   | Tailwind CSS                                   |
-| Toasts    | Sonner                                         |
-| Mock Auth | React Context + localStorage                   |
+## 🗺️ Architecture
 
-## Configuration
+``` bash
+📁 src/
+ ├── main.tsx         # app entrypoint (renders <App/>)
+ ├── App.tsx          # routes & providers (React Query, Router, Tooltip, Auth)
+ ├── context/AuthContext.tsx   # demo auth logic & localStorage persistence
+ ├── components/      # UI primitives (Toaster, ProtectedRoute, etc.)
+ ├── pages/           # route targets: Index, Login, Documentation, UserManagement, Unauthorized, NotFound
+ ├── hooks/           # custom React hooks
+ └── lib/             # utilities
+```
 
-No additional environment variables or servers are required. All auth
-and data are mocked in:
+## ⚙️ Configuration
 
-- `src/context/AuthContext.tsx`
-- `src/components/workflow/Pipeline.tsx`
+No env vars required for demo. To wire real GitHub OAuth:
 
-## Contributing
+``` bash
+# in project root:
+echo "VITE_GITHUB_CLIENT_ID=your_id" > .env
+echo "VITE_GITHUB_CLIENT_SECRET=your_secret" >> .env
+```
 
-Contributions welcome!
+Vite auto‑loads \`VITE\_\*\` vars. Replace the stub in
+\`AuthContext.login()\`.
 
-- Fork the repo
-- `npm install && npm run dev`
-- Commit with clear messages
-- Open a PR against `main`
+## 🧩 Features
 
-## Testing
+- \*\*Demo GitHub Login:\*\* Click “Sign in with GitHub” in \`/login\`.
+- \*\*Protected Routes:\*\* Wrap pages in \`<ProtectedRoute>\`; roles in
+  \`AuthContext\`.
+- \*\*Docs Viewer:\*\* Navigate to \`/documentation\`.
+- \*\*User Management:\*\* Accessible under \`/user-management\` for
+  admins; updates flow through Context and localStorage.
+- \*\*Animations & Toasts:\*\* Powered by Framer Motion and Sonner.
 
-No automated tests yet. Consider adding Jest or Playwright in future
-iterations.
+## 📚 Usage Examples
+
+- Accessing Dashboard\*
+
+``` jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Index />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/documentation" element={
+      <ProtectedRoute><Documentation /></ProtectedRoute>
+    }/>
+  </Routes>
+</BrowserRouter>
+```
+
+- Adding a New Route\*
+
+1\. Create \`src/pages/MyPage.tsx\`. 2. Add
+\`<Route path="/my-page" element={<MyPage />} /\>\` in \`App.tsx\` above
+\`\*\`.
+
+## 🛡️ Caveats & Security
+
+\- \*\*Demo‑only Auth:\*\* All auth is client‑side; credentials in
+plaintext localStorage. - \*\*No XSS Sanitization:\*\* Inputs rendered
+raw. - \*\*No Error Boundaries:\*\* Async failures have no fallbacks.
+
+## 🧪 Testing
+
+\_No tests found.\_ We welcome Jest + React Testing Library
+contributions. Suggested command:
+
+``` bash
+npm install --save-dev jest @testing-library/react @types/jest
+```
+
+## 🤝 Contributing
+
+1\. Fork and branch off \`main\`. 2. Run \`npm install\` → \`npm run
+lint\`. 3. Implement feature or bugfix; add tests. 4. Submit PR with
+clear, scoped commit messages (Conventional Commits).
 
 ## License
 
-No LICENSE file detected. If open‑sourcing, consider an MIT License.
+⚖️ This project is copyright 2025 Continuum Software. Dependency licenses as stated. 
 
-## Support
+## 
 
-Bugs & feature requests → [GitHub
-Issues](https://github.com/your-org/pedal-1/issues)
+Notes on This README== == This document reflects detailed codebase
+analysis:
 
-<figure>
-<img src="Pedal_dashboard.png" title="Dashboard Preview" />
-<figcaption>Dashboard Preview</figcaption>
-</figure>
+- Scripts & commands from \`package.json\`.
+- Auth flow & routes from \`src/context/AuthContext.tsx\` and
+  \`App.tsx\`.
+- Feature set from \`src/pages\` and components.
+- Stack versions from \`tsconfig.\*\`, \`vite.config.ts\`,
+  \`tailwind.config.ts\`.
+- Screenshot path from \`assets/ui/pedal_dashboard.png\`.
+- Noted lockfile duplication, missing tests, missing license.
