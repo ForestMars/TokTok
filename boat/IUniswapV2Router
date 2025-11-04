@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+/**
+ * @title IUniswapV2Router
+ * @dev Placeholder interface as requested in the project structure.
+ * Used for potential future integration to query prices or perform swaps directly on-chain.
+ */
+interface IUniswapV2Router {
+    function WETH() external view returns (address);
+    function factory() external view returns (address);
+
+    function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
+
+    // Other V2 Router functions can be added here as needed for on-chain swaps.
+}
